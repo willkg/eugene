@@ -6,6 +6,7 @@ from eugene.comms.models import User, Message
 from eugene.database import get_session
 from eugene.helpers import jsonify
 
+
 blueprint = Blueprint('comms', __name__,
                       template_folder='templates')
 
@@ -16,7 +17,9 @@ def update_status(name):
     user = db.query(User).filter_by(name=name).first()
     if not user:
         user = User(name=name)
+        db.add(user)
     user.updated = int(time.time())
+    db.commit()
 
 
 @blueprint.route('/')
@@ -32,21 +35,21 @@ def post_message():
 
     db = get_session(current_app)
 
-    if recipient != 'EVERYONE':
-        msg = Message(sender, recipient, text)
-        db.add(msg)
+    update_status(sender)
 
-    else:
+    if recipient == 'EVERYONE':
         recipients = db.query(User).all()
         for recipient in recipients:
             msg = Message(sender, recipient.name, text)
             db.add(msg)
 
-    update_status(sender)
+    else:
+        msg = Message(sender, recipient, text)
+        db.add(msg)
 
     db.commit()
 
-    return jsonify(dict(status='ok'))
+    return jsonify({'status': 'ok'})
 
 
 @blueprint.route('/api/v1/message/<name>', methods=['GET'])
