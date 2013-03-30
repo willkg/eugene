@@ -18,13 +18,31 @@ It's got two parts:
 Setting it up
 =============
 
-TODO
+Quick start::
+
+    $ git clone https://github.com/willkg/eugene
+    $ cd eugene
+    $ mkvritualenv eugene
+    $ pip install -r requirements.txt
+
+
+(Optional) If you want to change settings, create a file
+``eugene/settings_local.py`` and you can add things in there which
+will override the settings in ``eugene/settings.py``.
+
+To run the server::
+
+    $ python manage.py runserver
 
 
 Testing
 =======
 
-TODO
+Tests use nose.
+
+To run tests::
+
+    $ nosetests
 
 
 License

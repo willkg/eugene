@@ -1,4 +1,4 @@
-import json
+import simplejson as json
 
 from flask import Response, request
 from types import BooleanType
