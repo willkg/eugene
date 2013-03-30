@@ -48,4 +48,8 @@ To run tests::
 License
 =======
 
-This is distributed under the MIT license. See LICENSE for details.
+eugene is distributed under the MIT license. See LICENSE for details.
+
+bootstrap is distributed under the Apache v2 license.
+
+jquery is distributed under the MIT license.
