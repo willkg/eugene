@@ -11,7 +11,8 @@ def register_error_handlers(app):
 
 def json_error(code, message):
     """Returns a JSON-ified error object"""
-    return jsonify(dict(request=request.path, message=message)), code
+    message = repr(message)
+    return jsonify({'request': request.path, 'message': message}), code
 
 
 def error(code, message, template):
