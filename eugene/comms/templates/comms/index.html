@@ -1,5 +1,38 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>COMMS DISABLED</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+  <link href="{{ url_for('static', filename='css/eugene.css') }}" rel="stylesheet" media="screen">
+</head>
 <body>
-</h1>comms</h1>
+  <div id="comms-name-form" class="container">
+    <h1>COMMS</h1>
+
+    <form class="form-search pull-right" action="#">
+      <label>ENTER SHIP NAME:</label>
+      <input id="ship-name-input" type="text" class="input-medium" placeholder="SHIP NAME">
+      <button id="enable-comms" class="btn">ENABLE COMMS</button>
+    </form>
+  </div>
+
+  <div id="comms-display" class="container hidden">
+    <h1 id="ship-name"></h1>
+
+    <button id="disable-comms" class="btn pull-right">DISABLE COMMS</button>
+
+    <form action="#" class="form-horizontal">
+      <input type="text" class="input-xxlarge" name="message-input" placeholder="SHIP: MESSAGE">
+      <button id="send-message" class="btn">SEND</button>
+    </form>
+
+    <table id="message-table" class="table">
+    </table>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/eugene.js') }}"></script>
 </body>
 </html>
