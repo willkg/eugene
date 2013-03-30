@@ -24,11 +24,12 @@ Quick start::
     $ cd eugene
     $ mkvritualenv eugene
     $ pip install -r requirements.txt
+    $ cp eugene/settings_local.py-dist eugene/settings_local.py
+    
+    edit eugene/settings_local.py with your favorite editor
 
+    $ python manage.py db_create
 
-(Optional) If you want to change settings, create a file
-``eugene/settings_local.py`` and you can add things in there which
-will override the settings in ``eugene/settings.py``.
 
 To run the server::
 

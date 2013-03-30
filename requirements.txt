@@ -1,7 +1,5 @@
 Flask
 Flask-Script
-SQLAlchemy
-sqlalchemy-migrate
-WTForms
+SQLAlchemy==0.7.10
 nose
 simplejson
