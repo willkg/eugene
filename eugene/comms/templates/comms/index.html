@@ -27,8 +27,13 @@
       <button id="send-message" class="btn">SEND</button>
     </form>
 
-    <table id="message-table" class="table">
-    </table>
+    <div class="well console">
+      <table id="message-table" class="table">
+        <tbody>
+          <tr><td class="cell-time"></td><td class="cell-from"></td><td class="cell-msg"></td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>

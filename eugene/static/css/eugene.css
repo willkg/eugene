@@ -2,3 +2,23 @@
     display: none;
 }
 
+.cell-time {
+    width: 10%;
+}
+
+.cell-from {
+    width: 15%;
+}
+
+.cell-msg {
+    width: 75%;
+}
+
+.console {
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    overflow: auto;
+}

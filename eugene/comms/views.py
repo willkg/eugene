@@ -62,7 +62,10 @@ def get_message(name):
             .filter(Message.created >= start_time)
             .filter(Message.recipient == name))
 
-    msgs = [[msg.id, msg.sender, msg.text, msg.created]
+    msgs = [{'id': msg.id,
+             'sender': msg.sender,
+             'text': msg.text,
+             'created': time.strftime('%H:%M', time.localtime(msg.created))}
             for msg in msgs]
 
     update_status(name)
