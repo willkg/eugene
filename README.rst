@@ -36,6 +36,11 @@ To run the server::
     $ python manage.py runserver
 
 
+To run on a specific host and port::
+
+    $ python manage.py runserver --host <HOST> --port <PORT>
+
+
 Testing
 =======
 
