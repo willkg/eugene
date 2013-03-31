@@ -59,6 +59,10 @@ To run on a specific host and port::
     $ python manage.py runserver --host <HOST> --port <PORT>
 
 
+That'll tell you the url for your browser. Open one browser tab for each
+ship.
+
+
 Testing
 =======
 
