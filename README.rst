@@ -18,6 +18,24 @@ It's got two parts:
 Setting it up
 =============
 
+Pre-requirements:
+
+* Python 2.7: http://python.org/
+* virtualenv with pip: https://pypi.python.org/pypi/virtualenv
+
+  Use the "from source" instructions that don't require pip to install
+  it.
+
+* virtualenv-wrapper: http://virtualenvwrapper.readthedocs.org/en/latest/
+
+It doesn't work with prior versions of Python. It also doesn't work with
+Python 3.
+
+It requires a recent version of virtualenv, pip and virtualenv-wrapper.
+Those are all "standard" things in Python world now. So if you don't
+have them, now's the time to install them.
+
+
 Quick start::
 
     $ git clone https://github.com/willkg/eugene
