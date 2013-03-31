@@ -77,7 +77,7 @@ $(document).ready(function() {
             data: JSON.stringify({
                 available: false
             }),
-            contentType: 'application/json; charset=utf-8'
+            contentType: 'application/json; charset=utf-8',
             dataType: 'json'
         });
 
