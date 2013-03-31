@@ -38,8 +38,17 @@ have them, now's the time to install them.
 
 Quick start::
 
-    $ git clone https://github.com/willkg/eugene
-    $ cd eugene
+    Either: 
+
+        $ git clone https://github.com/willkg/eugene
+        $ cd eugene
+
+    or:
+
+        $ wget https://github.com/willkg/eugene/archive/master.zip
+        $ unzip master.zip
+        $ cd eugene-master
+
     $ mkvritualenv eugene
     $ pip install -r requirements.txt
     $ cp eugene/settings_local.py-dist eugene/settings_local.py
