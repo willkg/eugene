@@ -28,7 +28,11 @@ $(document).ready(function() {
         }
     };
 
-    var getNewMessages = function getNewMessages() {
+    var updateOnlineUsers = function updateOnlineUsers(users) {
+        $('#online').text(users.join(', '));
+    };
+
+    var getNewData = function getNewData() {
         if (!ship_name) {
             return;
         }
@@ -40,10 +44,18 @@ $(document).ready(function() {
             success: function(resp, status, jqxhr) {
                 updateMessages(resp.messages);
             }});
+
+        $.ajax({
+            type: 'GET',
+            url: '/api/v1/user',
+            dataType: 'json',
+            success: function(resp, status, jqxhr) {
+                updateOnlineUsers(resp.users);
+            }});
     };
 
     var timerClick = function timerClick() {
-        getNewMessages();
+        getNewData();
         timerID = window.setTimeout(timerClick, 5000);
     };
 
@@ -52,6 +64,19 @@ $(document).ready(function() {
         
         // Set everything up
         ship_name = $('#ship-name-input').val().toUpperCase();
+        ship_name = ship_name.replace(/[^ \w]/g, '');
+
+        // Tell the server we're online.
+        $.ajax({
+            type: 'POST',
+            url: '/api/v1/user/' + ship_name,
+            data: JSON.stringify({
+                available: true
+            }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        });
+
         $('#ship-name').text('COMMS: ' + ship_name);
         $('title').text('C: ' + ship_name);
         $('body').data('ship-name', ship_name);
@@ -120,7 +145,7 @@ $(document).ready(function() {
             });
             $('#message-input').val('');
 
-            getNewMessages();
+            getNewData();
         }
     });
 });

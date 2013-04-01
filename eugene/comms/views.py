@@ -18,6 +18,7 @@ def update_status(name):
     if not user:
         user = User(name=name)
         db.add(user)
+
     user.updated = int(time.time())
     db.commit()
 
@@ -96,6 +97,19 @@ def update_user(name):
         ship.available()
 
     db.commit()
+
+    if available:
+        text = '++ ONLINE: ' + name
+    else:
+        text = '-- OFFLINE: ' + name
+
+    # TODO: DRY issue
+    recipients = db.query(User).all()
+    for recipient in recipients:
+        msg = Message('', recipient.name, text)
+        db.add(msg)
+    db.commit()
+
     return jsonify({'status': 'ok'})
 
 
@@ -105,7 +119,8 @@ def get_users():
 
     start_time = time.time() - (60 * 5)
     users = (db.query(User)
-            .filter(User.updated >= start_time))
+            .filter(User.updated >= start_time)
+            .order_by(User.name))
     users = [av.name for av in users]
 
     return jsonify({
