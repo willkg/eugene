@@ -1,5 +1,6 @@
 $(document).ready(function() {
     var timerID = null;
+    var ship_name = null;
 
     var updateMessages = function updateMessages(msgs) {
         // Takes list of {sender, text} objects.
@@ -28,7 +29,6 @@ $(document).ready(function() {
     };
 
     var getNewMessages = function getNewMessages() {
-        var ship_name = $('body').data('ship-name');
         if (!ship_name) {
             return;
         }
@@ -51,10 +51,10 @@ $(document).ready(function() {
         event.preventDefault();
         
         // Set everything up
-        var name = $('#ship-name-input').val().toUpperCase();
-        $('#ship-name').text('COMMS: ' + name);
-        $('title').text('C: ' + name);
-        $('body').data('ship-name', name);
+        ship_name = $('#ship-name-input').val().toUpperCase();
+        $('#ship-name').text('COMMS: ' + ship_name);
+        $('title').text('C: ' + ship_name);
+        $('body').data('ship-name', ship_name);
         $('#message-table tbody tr.msg-data').empty();
 
         // Hide login form and unhide display
@@ -67,8 +67,14 @@ $(document).ready(function() {
     $('#disable-comms').click(function(event) {
         event.preventDefault();
 
-        window.clearTimeout(timerID);
-        timerID = null;
+        if (timerID) {
+            window.clearTimeout(timerID);
+            timerID = null;
+        }
+
+        if (!ship_name) {
+            return;
+        }
 
         // Tell the server we're offlline.
         $.ajax({
@@ -84,7 +90,6 @@ $(document).ready(function() {
         // Disable things
         $('#ship-name').text('COMMS');
         $('title').text('(C: ' + $('body').data('ship-name') + ')');
-        $('body').data('ship-name', '');
 
         // Hide display and unhide login form
         $('#comms-name-form').removeClass('hidden');
@@ -95,7 +100,6 @@ $(document).ready(function() {
     $('#send-message').click(function(event) {
         event.preventDefault();
 
-        var name = $('body').data('ship-name');
         var msg = $('#message-input').val();
 
         if (msg) {
@@ -107,7 +111,7 @@ $(document).ready(function() {
                 type: 'POST',
                 url: '/api/v1/message',
                 data: JSON.stringify({
-                    sender: name,
+                    sender: ship_name,
                     recipient: 'EVERYONE',
                     text: msg
                 }),
