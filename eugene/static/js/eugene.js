@@ -2,6 +2,8 @@ $(document).ready(function() {
     var timerID = null;
     var ship_name = null;
 
+    window.top.scrollTo(0, 1);
+
     var updateMessages = function updateMessages(msgs) {
         // Takes list of {sender, text} objects.
         var allMessages = $('#message-table tbody').children();
