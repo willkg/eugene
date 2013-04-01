@@ -1,12 +1,13 @@
 $(document).ready(function() {
-    var timerID = null;
-    var ship_name = null;
+    var timerID;
+    var shipName;
+    var messageTable = $('#message-table');
 
     window.top.scrollTo(0, 1);
 
-    var updateMessages = function updateMessages(msgs) {
+    var updateMessages = function (msgs) {
         // Takes list of {sender, text} objects.
-        var allMessages = $('#message-table tbody').children();
+        var allMessages = messageTable.find('tbody').children();
         var firstID = -1;
 
         if (allMessages.length > 0) {
@@ -21,27 +22,31 @@ $(document).ready(function() {
             }
 
             // GROSS!
-            var new_row =  $('<tr class="msg-data">' +
-                             '<td>' + msg.created + '</td>' +
-                             '<td>' + msg.sender + '</td>' +
-                             '<td>' + msg.text + '</td></tr>');
-            new_row.data('msg-id', msg.id);
-            new_row.insertBefore('#message-table tbody tr:first-child');
+            var newRow =  $('<tr class="msg-data">' +
+                            '<td class="td-created"></td>' +
+                            '<td class="td-sender"></td>' +
+                            '<td class="td-text"></td></tr>');
+            newRow.data('msg-id', msg.id);
+            newRow.find('.td-created').text(msg.created);
+            newRow.find('.td-sender').text(msg.sender);
+            newRow.find('.td-text').text(msg.text);
+
+            newRow.insertBefore(messageTable.find('tbody tr:first-child'));
         }
     };
 
-    var updateOnlineUsers = function updateOnlineUsers(users) {
+    var updateOnlineUsers = function (users) {
         $('#online').text(users.join(', '));
     };
 
-    var getNewData = function getNewData() {
-        if (!ship_name) {
+    var getNewData = function () {
+        if (!shipName) {
             return;
         }
 
         $.ajax({
             type: 'GET',
-            url: '/api/v1/message/' + ship_name,
+            url: '/api/v1/message/' + shipName,
             dataType: 'json',
             success: function(resp, status, jqxhr) {
                 updateMessages(resp.messages);
@@ -56,7 +61,7 @@ $(document).ready(function() {
             }});
     };
 
-    var timerClick = function timerClick() {
+    var timerClick = function () {
         getNewData();
         timerID = window.setTimeout(timerClick, 5000);
     };
@@ -65,13 +70,13 @@ $(document).ready(function() {
         event.preventDefault();
         
         // Set everything up
-        ship_name = $('#ship-name-input').val().toUpperCase();
-        ship_name = ship_name.replace(/[^ \w]/g, '');
+        shipName = $('#ship-name-input').val().toUpperCase();
+        shipName = shipName.replace(/[^ \w]/g, '');
 
         // Tell the server we're online.
         $.ajax({
             type: 'POST',
-            url: '/api/v1/user/' + ship_name,
+            url: '/api/v1/user/' + shipName,
             data: JSON.stringify({
                 available: true
             }),
@@ -79,10 +84,9 @@ $(document).ready(function() {
             dataType: 'json'
         });
 
-        $('#ship-name').text('COMMS: ' + ship_name);
-        $('title').text('C: ' + ship_name);
-        $('body').data('ship-name', ship_name);
-        $('#message-table tbody tr.msg-data').empty();
+        $('#ship-name').text('COMMS: ' + shipName);
+        $('title').text('C: ' + shipName);
+        messageTable.find('tbody tr.msg-data').empty();
 
         // Hide login form and unhide display
         $('#comms-name-form').addClass('hidden');
@@ -99,14 +103,14 @@ $(document).ready(function() {
             timerID = null;
         }
 
-        if (!ship_name) {
+        if (!shipName) {
             return;
         }
 
         // Tell the server we're offlline.
         $.ajax({
             type: 'POST',
-            url: '/api/v1/user/' + ship_name,
+            url: '/api/v1/user/' + shipName,
             data: JSON.stringify({
                 available: false
             }),
@@ -116,7 +120,7 @@ $(document).ready(function() {
 
         // Disable things
         $('#ship-name').text('COMMS');
-        $('title').text('(C: ' + $('body').data('ship-name') + ')');
+        $('title').text('(C: ' + shipName + ')');
 
         // Hide display and unhide login form
         $('#comms-name-form').removeClass('hidden');
@@ -132,13 +136,13 @@ $(document).ready(function() {
         if (msg) {
             // quick sanitize of msg.
             msg = msg.toUpperCase();
-            msg = msg.replace(/[<>'"\\\/]/g, '.');
+            msg = msg.replace(/[<>"\\\/]/g, '.');
 
             $.ajax({
                 type: 'POST',
                 url: '/api/v1/message',
                 data: JSON.stringify({
-                    sender: ship_name,
+                    sender: shipName,
                     recipient: 'EVERYONE',
                     text: msg
                 }),
