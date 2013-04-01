@@ -53,7 +53,7 @@ $(document).ready(function() {
         // Set everything up
         var name = $('#ship-name-input').val().toUpperCase();
         $('#ship-name').text('COMMS: ' + name);
-        $('title').text('COMMS: ' + name);
+        $('title').text('C: ' + name);
         $('body').data('ship-name', name);
         $('#message-table tbody tr.msg-data').empty();
 
@@ -81,9 +81,9 @@ $(document).ready(function() {
             dataType: 'json'
         });
 
-        // Clean everything up
+        // Disable things
         $('#ship-name').text('COMMS');
-        $('title').text('COMMS DISABLED');
+        $('title').text('(C: ' + $('body').data('ship-name') + ')');
         $('body').data('ship-name', '');
 
         // Hide display and unhide login form
